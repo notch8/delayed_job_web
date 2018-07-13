@@ -14,19 +14,6 @@ class DelayedJobWeb < Sinatra::Base
   # Enable sessions so we can use CSRF protection
   enable :sessions
 
-  set :protection,
-    # Various session protections
-    :session => true,
-    # Various non-default Rack::Protection options
-    :use => [
-      # Prevent destructive actions without a valid CSRF auth token
-      :authenticity_token,
-      # Prevent destructive actions with remote referrers
-      :remote_referrer
-    ],
-    # Deny the request, don't clear the session
-    :reaction => :deny
-
   before do
     @queues = (params[:queues] || "").split(",").map{|queue| queue.strip}.uniq.compact
   end
